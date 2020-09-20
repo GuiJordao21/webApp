@@ -117,37 +117,28 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/models/user.ts":[function(require,module,exports) {
+})({"src/models/Eventing.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.User = void 0;
+exports.Eventing = void 0;
 
-var User =
+var Eventing =
 /** @class */
 function () {
-  function User(data) {
-    this.data = data;
+  function Eventing() {
     this.events = {};
   }
 
-  User.prototype.get = function (propName) {
-    return this.data[propName];
-  };
-
-  User.prototype.set = function (update) {
-    Object.assign(this.data, update);
-  };
-
-  User.prototype.on = function (eventName, callback) {
+  Eventing.prototype.on = function (eventName, callback) {
     var handlers = this.events[eventName] || [];
     handlers.push(callback);
     this.events[eventName] = handlers;
   };
 
-  User.prototype.trigger = function (eventName) {
+  Eventing.prototype.trigger = function (eventName) {
     var handlers = this.events[eventName];
 
     if (!handlers || handlers.length === 0) {
@@ -159,11 +150,41 @@ function () {
     });
   };
 
+  return Eventing;
+}();
+
+exports.Eventing = Eventing;
+},{}],"src/models/user.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.User = void 0;
+
+var Eventing_1 = require("./Eventing");
+
+var User =
+/** @class */
+function () {
+  function User(data) {
+    this.data = data;
+    this.events = new Eventing_1.Eventing();
+  }
+
+  User.prototype.get = function (propName) {
+    return this.data[propName];
+  };
+
+  User.prototype.set = function (update) {
+    Object.assign(this.data, update);
+  };
+
   return User;
 }();
 
 exports.User = User;
-},{}],"src/index.ts":[function(require,module,exports) {
+},{"./Eventing":"src/models/Eventing.ts"}],"src/index.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -173,19 +194,14 @@ Object.defineProperty(exports, "__esModule", {
 var user_1 = require("./models/user");
 
 var user = new user_1.User({
-  name: "Gui",
-  age: 26
+  id: 1,
+  age: 33,
+  name: "Gui"
 });
-user.on("change", function () {
-  console.log("change 1");
+user.events.on("change", function () {
+  console.log("test");
 });
-user.on("change", function () {
-  console.log("change 2");
-});
-user.on("save", function () {
-  console.log("save 1");
-});
-user.trigger("save");
+user.events.trigger("change");
 },{"./models/user":"src/models/user.ts"}],"../../../../.nvm/versions/node/v10.16.2/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -214,7 +230,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49900" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50065" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

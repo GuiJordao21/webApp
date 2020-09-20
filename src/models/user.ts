@@ -1,42 +1,21 @@
-import { env } from "process";
+import { Eventing } from "./Eventing";
 
 interface UserProps {
-  name?: string;
   age?: number;
+  id?: number;
+  name?: string;
 }
 
-type Callback = () => void;
-
 export class User {
-  events: {
-    [key: string]: Callback[];
-  } = {};
+  public events: Eventing = new Eventing();
 
   constructor(private data: UserProps) {}
 
-  get(propName: string): string | number {
+  get(propName: string): number | string {
     return this.data[propName];
   }
 
   set(update: UserProps): void {
     Object.assign(this.data, update);
-  }
-
-  on(eventName: String, callback: Callback): void {
-    const handlers = this.events[eventName] || [];
-    handlers.push(callback);
-    this.events[eventName] = handlers;
-  }
-
-  trigger(eventName: string): void {
-    const handlers = this.events[eventName];
-
-    if (!handlers || handlers.length === 0) {
-      return;
-    }
-
-    handlers.forEach((callback) => {
-      callback();
-    });
   }
 }
