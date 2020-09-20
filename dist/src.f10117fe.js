@@ -154,7 +154,7 @@ function () {
 }();
 
 exports.Eventing = Eventing;
-},{}],"src/models/user.ts":[function(require,module,exports) {
+},{}],"src/models/User.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -191,9 +191,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var user_1 = require("./models/user");
+var User_1 = require("./models/User");
 
-var user = new user_1.User({
+var user = new User_1.User({
   id: 1,
   age: 33,
   name: "Gui"
@@ -202,7 +202,7 @@ user.events.on("change", function () {
   console.log("test");
 });
 user.events.trigger("change");
-},{"./models/user":"src/models/user.ts"}],"../../../../.nvm/versions/node/v10.16.2/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./models/User":"src/models/User.ts"}],"../../../../.nvm/versions/node/v10.16.2/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
