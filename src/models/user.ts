@@ -2,6 +2,7 @@ import { BaseModel } from "./BaseModel";
 import { ApiSync } from "./ApiSync";
 import { Attributes } from "./Attributes";
 import { Eventing } from "./Eventing";
+import { BaseCollection } from "./BaseCollection";
 
  
 export interface UserProps {
@@ -21,7 +22,10 @@ export class User extends BaseModel<UserProps> {
     )
   }
 
-  isAdminUser(): boolean {
-    return this.get("id") === 1
-  }
+ static buildUserCollection(): BaseCollection<User, UserProps>{
+   return new BaseCollection<User, UserProps>(
+    "http://localhost:3000/users",
+    (json: UserProps) => User.buildUser(json)
+  )
+ }
 }
